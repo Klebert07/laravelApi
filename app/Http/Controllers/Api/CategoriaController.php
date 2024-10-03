@@ -6,13 +6,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Categoria;
 
+use App\Http\Resources\CategoriaResource;
+use App\Http\Resources\CategoriaCollection;
+
 class CategoriaController extends Controller
 {
     public function index(){
-        return Categoria::all();
+        return new CategoriaCollection(Categoria::all());
     }
 
     public function show(categoria $categoria){
-        return $categoria->load('recetas');
+        $categoria = $categoria -> load('recetas');
+        return new CategoriaResource($categoria);
     }
 }
